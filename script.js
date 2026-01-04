@@ -45,7 +45,8 @@ document.addEventListener('DOMContentLoaded', function(){
   const hero = document.querySelector('.hero');
   const scrollHint = document.getElementById('scroll-hint');
   let ticking = false;
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let reducedMotion = false;
+  try{ reducedMotion = (typeof window.matchMedia === 'function') && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){ reducedMotion = false; }
 
   function updateParallax(){
     if(!hero || reducedMotion) return;
