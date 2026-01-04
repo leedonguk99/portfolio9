@@ -26,7 +26,15 @@ jobs:
           echo "=== ls workspace ==="
           ls -la
 
-      - name: Configure Pages
+      - name: Configure Pages (with enablement using PAGES_TOKEN)
+        if: ${{ secrets.PAGES_TOKEN != '' }}
+        uses: actions/configure-pages@v3
+        with:
+          token: ${{ secrets.PAGES_TOKEN }}
+          enablement: 'true'
+
+      - name: Configure Pages (read-only)
+        if: ${{ secrets.PAGES_TOKEN == '' }}
         uses: actions/configure-pages@v3
 
       - name: Upload artifact
