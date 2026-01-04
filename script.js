@@ -1,6 +1,7 @@
 // Simple JS for navigation toggle and contact form handling
 document.addEventListener('DOMContentLoaded', function(){
   console.log('[debug] DOMContentLoaded fired');
+  try{ window.__siteScriptLoaded = true; }catch(e){}
   // Set current year
   const yearEl = document.getElementById('year');
   if(yearEl) yearEl.textContent = new Date().getFullYear();
@@ -83,6 +84,7 @@ document.addEventListener('DOMContentLoaded', function(){
   /* Modal (project detail) handling */
   const openModalButtons = document.querySelectorAll('.btn-open-modal');
   console.log('[debug] openModalButtons found:', openModalButtons.length);
+  try{ window.__openModalButtonsCount = openModalButtons.length; }catch(e){}
   const mainContent = document.querySelector('main');
   let lastFocused = null;
 
@@ -120,6 +122,7 @@ document.addEventListener('DOMContentLoaded', function(){
       }
     });
   });
+  try{ window.__openModalHandlersAttached = openModalButtons.length; }catch(e){}
 
   function populateDashboardSample(modal){
     if(!modal) return;
