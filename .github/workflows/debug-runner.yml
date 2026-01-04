@@ -1,0 +1,27 @@
+name: Runner debug
+
+on:
+  workflow_dispatch:
+
+jobs:
+  debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Say hello
+        run: echo "Runner debug started"
+
+      - name: System info
+        run: |
+          uname -a
+          whoami
+          lsb_release -a || true
+
+      - name: Git info
+        run: |
+          git --version || true
+          git status --porcelain -b || true
+          git remote -v || true
+
+      - name: Env vars
+        run: |
+          env | sort | grep -E 'GITHUB|ACTIONS|RUNNER' || true
