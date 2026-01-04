@@ -1,5 +1,6 @@
 // Simple JS for navigation toggle and contact form handling
 document.addEventListener('DOMContentLoaded', function(){
+  console.log('[debug] DOMContentLoaded fired');
   // Set current year
   const yearEl = document.getElementById('year');
   if(yearEl) yearEl.textContent = new Date().getFullYear();
@@ -40,6 +41,7 @@ document.addEventListener('DOMContentLoaded', function(){
     themeToggle.addEventListener('click', () => {
       const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
       const next = current === 'light' ? 'dark' : 'light';
+      console.log('[debug] theme toggle clicked, next=', next);
       applyTheme(next, {animate:true});
       storageSet('theme', next);
     });
@@ -80,6 +82,7 @@ document.addEventListener('DOMContentLoaded', function(){
 
   /* Modal (project detail) handling */
   const openModalButtons = document.querySelectorAll('.btn-open-modal');
+  console.log('[debug] openModalButtons found:', openModalButtons.length);
   const mainContent = document.querySelector('main');
   let lastFocused = null;
 
@@ -104,6 +107,7 @@ document.addEventListener('DOMContentLoaded', function(){
   openModalButtons.forEach(btn=>{
     btn.addEventListener('click', (e)=>{
       const id = btn.getAttribute('data-modal');
+      console.log('[debug] openModal click, data-modal=', id);
       openModal(id, btn);
       // populate playful sample data for dashboard modal
       if(id === 'modal-dashboard'){
@@ -317,9 +321,10 @@ document.addEventListener('DOMContentLoaded', function(){
   // Minimal language switcher
   document.querySelectorAll('.lang-btn').forEach(btn=>{
     btn.addEventListener('click', ()=>{
+      const lang = btn.getAttribute('data-lang');
+      console.log('[debug] lang button clicked:', lang);
       document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-      const lang = btn.getAttribute('data-lang');
       setLanguage(lang);
     });
   });
