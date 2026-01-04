@@ -21,7 +21,8 @@ document.addEventListener('DOMContentLoaded', function(){
   function storageGet(key){ try{ return localStorage.getItem(key); }catch(e){ return null; } }
   function storageSet(key, value){ try{ localStorage.setItem(key, value); }catch(e){ /* noop */ } }
   const storedTheme = storageGet('theme');
-  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  let prefersDark = false;
+  try{ prefersDark = (typeof window.matchMedia === 'function') && window.matchMedia('(prefers-color-scheme: dark)').matches; }catch(e){ prefersDark = false; }
   const initialTheme = storedTheme || (prefersDark ? 'dark' : 'dark'); // default to dark
   const applyTheme = (t, opts = {}) => {
     document.documentElement.setAttribute('data-theme', t);
@@ -48,7 +49,8 @@ document.addEventListener('DOMContentLoaded', function(){
   const hero = document.querySelector('.hero');
   const scrollHint = document.getElementById('scroll-hint');
   let ticking = false;
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let reducedMotion = false;
+  try{ reducedMotion = (typeof window.matchMedia === 'function') && window.matchMedia('(prefers-reduced-motion: reduce)').matches; }catch(e){ reducedMotion = false; }
 
   function updateParallax(){
     if(!hero || reducedMotion) return;
