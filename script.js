@@ -17,7 +17,10 @@ document.addEventListener('DOMContentLoaded', function(){
 
   // Theme toggle (default: dark)
   const themeToggle = document.getElementById('theme-toggle');
-  const storedTheme = localStorage.getItem('theme');
+  // Safe storage helpers: guard against environments where localStorage is unavailable
+  function storageGet(key){ try{ return localStorage.getItem(key); }catch(e){ return null; } }
+  function storageSet(key, value){ try{ localStorage.setItem(key, value); }catch(e){ /* noop */ } }
+  const storedTheme = storageGet('theme');
   const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
   const initialTheme = storedTheme || (prefersDark ? 'dark' : 'dark'); // default to dark
   const applyTheme = (t, opts = {}) => {
@@ -37,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function(){
       const current = document.documentElement.getAttribute('data-theme') === 'light' ? 'light' : 'dark';
       const next = current === 'light' ? 'dark' : 'light';
       applyTheme(next, {animate:true});
-      localStorage.setItem('theme', next);
+      storageSet('theme', next);
     });
   }
 
@@ -347,11 +350,11 @@ document.addEventListener('DOMContentLoaded', function(){
       el.textContent = tpl.replace('{coffee}', coffee).replace('{sim}', '87').replace('{explain}', map['dashboard.pred.rec_explain'] || 'Flavor profile considered');
     });
 
-    localStorage.setItem('site_lang', lang);
+    storageSet('site_lang', lang);
   }
 
-  // Initial language from localStorage
-  const saved = localStorage.getItem('site_lang') || 'ko';
+  // Initial language from storage
+  const saved = storageGet('site_lang') || 'ko';
   setLanguage(saved);
 
 });
